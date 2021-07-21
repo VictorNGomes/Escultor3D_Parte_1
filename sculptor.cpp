@@ -60,9 +60,9 @@ void Sculptor::cutVoxel(int x, int y, int z)
 
 void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1)
 {
-    for(int i=x0; i<=x1; i++){
-        for(int j=y0; j<=y1; j++){
-             for(int k=z0; k<=z1; k++){
+    for(int i=x0; i<x1; i++){
+        for(int j=y0; j<y1; j++){
+             for(int k=z0; k<z1; k++){
 
                     putVoxel(i,j,k);
              }
@@ -87,12 +87,84 @@ void Sculptor::writeOFF(const char *filename)
 {
 
    std :: ofstream arq;
-
+   fixed(arq);
     arq.open(filename);
     if(arq.is_open()){
        std :: cout << "arquivo criado" << std::endl;
 
        arq <<"OFF" << std::endl;
+
+       int ve =0, s = 0;
+       for(int i =0; i<nx;i++){
+           for(int j=0; j<ny; j++){
+               for(int k=0; k<nz; k++){
+                   if(v[i][j][k].isOn == 1){
+                    ve+=8;
+                    s+=6;
+
+                   }
+               }
+           }
+
+       }
+
+       arq << ve <<" "<< s <<" " << 0 << std::endl;
+
+       for(int i =0; i<nx;i++){
+           for(int j=0; j<ny; j++){
+               for(int k=0; k<nz; k++){
+                   if(v[i][j][k].isOn == 1){
+                       arq << i-0.5 <<" "<< j+0.5 <<" "<< k-0.5 << std::endl; //p0
+                       arq << i-0.5 <<" "<< j-0.5 <<" "<< k-0.5 << std::endl; //p1
+                       arq << i+0.5 <<" "<< j-0.5 <<" "<< k-0.5 << std::endl; //p2
+                       arq << i+0.5 <<" "<< j+0.5 <<" "<< k-0.5 << std::endl; //p3
+                       arq << i-0.5 <<" "<< j+0.5 <<" "<< k+0.5 << std::endl; //p4
+                       arq << i-0.5 <<" "<< j-0.5 <<" "<< k+0.5 << std::endl; //p5
+                       arq << i+0.5 <<" "<< j-0.5 <<" "<< k+0.5 << std::endl; //p6
+                       arq << i+0.5 <<" "<< j+0.5 <<" "<< k+0.5 << std::endl; //p7
+
+
+                   }
+               }
+           }
+
+       }
+       int count = 0;
+
+       for(int i =0; i<nx;i++){
+           for(int j=0; j<ny; j++){
+               for(int k=0; k<nz; k++){
+                   if(v[i][j][k].isOn == 1){
+                       arq << 4 <<" "<< 0+count <<" "<< 3+count <<" "<< 2+count <<" "<< 1 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       arq << 4 <<" "<< 4+count <<" "<< 5+count <<" "<< 6+count <<" "<< 7 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       arq << 4 <<" "<< 0+count <<" "<< 1+count <<" "<< 5+count <<" "<< 4 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       arq << 4 <<" "<< 0+count <<" "<< 4+count <<" "<< 7+count <<" "<< 3 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       arq << 4 <<" "<< 3+count <<" "<< 7+count <<" "<< 6+count <<" "<< 2 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       arq << 4 <<" "<< 1+count <<" "<< 2+count <<" "<< 6+count <<" "<< 5 + count <<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+
+                       count+=8;
+
+
+                   }
+               }
+           }
+
+       }
+
+
+
+
 
        arq.close();
     }

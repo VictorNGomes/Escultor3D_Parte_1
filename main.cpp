@@ -5,12 +5,13 @@ using namespace std;
 
 int main()
 {
-Sculptor x(2,3,4);
-x.setColor(1,1,1,1);
-x.putVoxel(1,1,1);
+Sculptor x(30,30,30);
+x.setColor(0.3137,0.8705,0.8901,0.5);
+x.putBox(0,30,0,30,0,30);
 
 
-x.writeOFF("texto.txt");
+
+x.writeOFF("cubao.off");
 
 
 }
