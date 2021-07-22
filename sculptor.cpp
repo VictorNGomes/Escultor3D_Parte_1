@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 Sculptor::Sculptor(int _nx, int _ny, int _nz)
 {
@@ -83,6 +84,27 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1)
     }
 }
 
+void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius)
+{
+
+    for(int i=0; i<=nx; i++){
+        for(int j=0; j<=ny; j++){
+             for(int k=0; k<=nz; k++){
+                    //double cord = ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) );
+                    if( ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) ) < pow(radius,2) ){
+                        putVoxel(i,j,k);
+                    }
+
+            }
+        }
+    }
+
+
+}
+
+
+
+
 void Sculptor::writeOFF(const char *filename)
 {
 
@@ -139,16 +161,16 @@ void Sculptor::writeOFF(const char *filename)
                        arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
 
                        arq << 4 <<" "<< 4+count <<" "<< 5+count <<" "<< 6+count <<" "<< 7 + count<<" "; // lados
-                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g <<" "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
 
                        arq << 4 <<" "<< 0+count <<" "<< 1+count <<" "<< 5+count <<" "<< 4 + count<<" "; // lados
-                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g <<" "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
 
                        arq << 4 <<" "<< 0+count <<" "<< 4+count <<" "<< 7+count <<" "<< 3 + count<<" "; // lados
-                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g <<" "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
 
-                       arq << 4 <<" "<< 3+count <<" "<< 7+count <<" "<< 6+count <<" "<< 2 + count<<" "; // lados
-                       arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
+                       arq << 4 <<" "<< 3+count <<" "<< 7+count << " "<< 6+count <<" "<< 2 + count<<" "; // lados
+                       arq << v[i][j][j].r << " "<< v[i][j][j].g <<" "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
 
                        arq << 4 <<" "<< 1+count <<" "<< 2+count <<" "<< 6+count <<" "<< 5 + count <<" "; // lados
                        arq << v[i][j][j].r << " "<< v[i][j][j].g << " "<< v[i][j][j].b << " "<< v[i][j][j].a << std::endl;
