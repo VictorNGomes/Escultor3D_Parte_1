@@ -23,7 +23,7 @@ Sculptor::Sculptor(int _nx, int _ny, int _nz)
            v[0][j] = v[0][j-1]+nz;
     }
 
-std :: cout<<"criadu"<< std ::endl;
+std :: cout<<"arquivo criado, confia!"<< std ::endl;
 
 
 
@@ -100,7 +100,59 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius)
     }
 
 
+}
 
+void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius)
+{
+
+    for(int i=0; i<=nx; i++){
+        for(int j=0; j<=ny; j++){
+             for(int k=0; k<=nz; k++){
+                    //double cord = ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) );
+                    if( ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) ) < pow(radius,2) ){
+                        cutVoxel(i,j,k);
+                    }
+
+            }
+        }
+    }
+
+}
+
+
+
+void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz)
+{
+
+    for(int i=0; i<=nx; i++){
+        for(int j=0; j<=ny; j++){
+             for(int k=0; k<=nz; k++){
+                    //double cord = ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) );
+                    if(  (pow(i-xcenter,2)/pow(rx,2)) + (pow(j-ycenter,2)/pow(ry,2)) + (pow(k-zcenter,2)/pow(rz,2)) < 1 ){
+                        putVoxel(i,j,k);
+                    }
+
+            }
+        }
+    }
+
+
+}
+
+void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz)
+{
+
+    for(int i=0; i<=nx; i++){
+        for(int j=0; j<=ny; j++){
+             for(int k=0; k<=nz; k++){
+                    //double cord = ( pow(i-xcenter,2) + pow(j-ycenter,2) + pow(k-zcenter,2) );
+                    if(  (pow(i-xcenter,2)/pow(rx,2)) + (pow(j-ycenter,2)/pow(ry,2)) + (pow(k-zcenter,2)/pow(rz,2)) < 1 ){
+                        cutVoxel(i,j,k);
+                    }
+
+            }
+        }
+    }
 
 }
 
@@ -169,13 +221,13 @@ void Sculptor::writeOFF(const char *filename)
                        arq << v[i][j][k].r << " "<< v[i][j][k].g <<" "<< v[i][j][k].b << " "<< v[i][j][k].a << std::endl;
 
                        arq << 4 <<" "<< 0+count <<" "<< 4+count <<" "<< 7+count <<" "<< 3 + count<<" "; // lados
-                       arq << v[i][j][k].r << " "<< v[i][j][k].g <<" "<< v[i][j][j].b << " "<< v[i][j][k].a << std::endl;
+                       arq << v[i][j][k].r << " "<< v[i][j][k].g <<" "<< v[i][j][k].b << " "<< v[i][j][k].a << std::endl;
 
                        arq << 4 <<" "<< 3+count <<" "<< 7+count << " "<< 6+count <<" "<< 2 + count<<" "; // lados
                        arq << v[i][j][k].r << " "<< v[i][j][k].g <<" "<< v[i][j][k].b << " "<< v[i][j][k].a << std::endl;
 
                        arq << 4 <<" "<< 1+count <<" "<< 2+count <<" "<< 6+count <<" "<< 5 + count <<" "; // lados
-                       arq << v[i][j][k].r << " "<< v[i][j][k].g << " "<< v[i][j][k].b << " "<< v[i][j][k].a <<std::endl;
+                       arq << v[i][j][k].r << " "<< v[i][j][k].g << " "<< v[i][j][k].b << " "<< v[i][j][k].a << std::endl;
 
                        count+=8;
 
